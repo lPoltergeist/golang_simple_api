@@ -41,6 +41,9 @@ func handleAddAge(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error to save this person's age", http.StatusBadRequest)
 		return
 	}
+	if person.Age <= 0 {
+		http.Error(w, "Age not valid! Age must not be 0!", http.StatusBadRequest)
+	}
 	defer r.Body.Close()
 
 	newPersonAge := ageName{uuid.NewString(), person.Name, person.Age}
@@ -49,7 +52,7 @@ func handleAddAge(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("People Registered: %+v\n", slice)
 
-	fmt.Fprintf(w, "Success on receiving JSON %+v\n", len(slice))
+	fmt.Fprintf(w, "Success on receiving JSON!")
 }
 
 func deletePerson(w http.ResponseWriter, r *http.Request) {
